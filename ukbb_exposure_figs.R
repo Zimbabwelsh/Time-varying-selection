@@ -9,8 +9,8 @@ setwd("C:/Users/gg9824/Dropbox/00ESRC Fellowship/Projects/COVID19/Time varying s
 
 
 
-df_test <- read_data("test_20211014.xlsx")
-df_pos <- read_data("positive_test_20211014.xlsx")
+df_test <- read_data("test_20211018.xlsx")
+df_pos <- read_data("positive_test_20211018.xlsx")
 
 ### Combine datasets with indicator for "test"
 df <- bind_rows(df_test, df_pos, .id="test")
@@ -39,7 +39,8 @@ testPlot <- ggplot(df %>% filter(type==1),
                        group = `Risk factor`,
                        colour=`Risk factor`)) +
                     geom_point (size=1.5) +
-                    geom_line(size=0.5, linetype=1) +
+                    geom_line(data = df %>% filter(type==1 & `Time period`!="Whole year"),
+                              size=0.5, linetype=1) +
                     ylab("Odds Ratio") +
                     theme(axis.text.x=element_text(color = "black",
                                                    size=8, angle=30, hjust=0.8)) +
@@ -52,7 +53,7 @@ testPlot <- ggplot(df %>% filter(type==1),
                     scale_color_manual(values=viridis_man)+
   geom_text(data=df %>% filter(type==1) %>%  group_by(test, expo) %>% filter(row_number()==1),
             label=(df %>% filter(type==1) %>%  group_by(test, expo) %>% filter(row_number()==1))$expo,
-                   y=2, size=2.5, colour="black", x = 5, hjust=1)
+                   y=2, size=2.5, colour="black", x = 5, hjust=0.6)
 
 testPlot
 
