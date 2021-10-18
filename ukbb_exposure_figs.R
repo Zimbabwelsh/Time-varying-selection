@@ -49,7 +49,11 @@ testPlot <- ggplot(df %>% filter(type==1),
                     theme(strip.background = element_blank(), strip.text.y = element_blank(),
                           panel.border=element_blank(),
                           panel.grid.minor.x = element_blank()) +
-                    scale_color_manual(values=viridis_man)
+                    scale_color_manual(values=viridis_man)+
+  geom_text(data=df %>% filter(type==1) %>%  group_by(test, expo) %>% filter(row_number()==1),
+            label=(df %>% filter(type==1) %>%  group_by(test, expo) %>% filter(row_number()==1))$expo,
+                   y=2, size=2.5, colour="black", x = 5, hjust=1)
+
 testPlot
 
 ggsave("testPlot.png", dpi=600)
